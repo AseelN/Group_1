@@ -84,4 +84,12 @@ public class Group1_projectTest {
         
     }
     
+    @Test
+    public void notString(){
+        String s="1";
+        String expResult = "Input should not be a digit";
+        String result = instance.SearchCategories(s);
+        assertEquals(expResult, result);
+    }
+    
 }
