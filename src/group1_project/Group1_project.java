@@ -25,7 +25,8 @@ public static void main(String[] args) {
     
     public static String validation(String [] cat,String str){
                 int t= -1;
-        if(str.isEmpty())
+        //input empty or digit
+        if(str.isEmpty() || !str.matches("[a-zA-Z]+"))
             return "An error occured,please try again.";
 
         
@@ -42,5 +43,6 @@ public static void main(String[] args) {
     }
  
     
-    
 }
+    
+

@@ -85,7 +85,7 @@ public class Group1_projectTest {
     @Test
     public void notString(){
         String s="1";
-        String expResult = "Input should not be a digit";
+        String expResult = "An error occured,please try again.";
         String result = instance.validation(categories,s);
         assertEquals(expResult, result);
     }
