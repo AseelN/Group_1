@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package group1_project;
 
 import org.junit.After;
@@ -12,12 +7,18 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author aseel
- */
+
 public class Group1_projectTest {
     Group1_project instance;
+    
+        String[] categories = { 
+            "sahl System", 
+            "desktop interface", 
+            "security interface", 
+            "ip address connfigurtion", 
+            "change password" 
+        };
+        
     public Group1_projectTest() {
     }
     
@@ -39,15 +40,12 @@ public class Group1_projectTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of main method, of class Group1_project.
-     */
     @Test
     public void caseDiff() {
         System.out.println("caseDiff");
         String s = "Sahl";
         String expResult = "sahl";
-        String result = instance.ConvertLower(s);
+        String result = instance.validation(categories,s);
         assertEquals(expResult, result);
         
         
@@ -59,7 +57,7 @@ public class Group1_projectTest {
         System.out.println("Empty");
         String s = "";
         String expResult = "An error occured,please try again.";
-        String result = instance.ConvertLower(s);
+        String result = instance.validation(categories,s);
         assertEquals(expResult, result);
         
     }
@@ -69,7 +67,7 @@ public class Group1_projectTest {
         System.out.println("NotValid");
         String s = "crash";
         String expResult = "Not found, try again.";
-        String result = instance.ConvertLower(s);
+        String result = instance.validation(categories,s);
         assertEquals(expResult, result);
         
     }
@@ -88,7 +86,7 @@ public class Group1_projectTest {
     public void notString(){
         String s="1";
         String expResult = "Input should not be a digit";
-        String result = instance.SearchCategories(s);
+        String result = instance.validation(categories,s);
         assertEquals(expResult, result);
     }
     

@@ -25,7 +25,7 @@ public static void main(String[] args) {
     
     public static String validation(String [] cat,String str){
                 int t= -1;
-        if(str == "")
+        if(str.isEmpty())
             return "An error occured,please try again.";
 
         
@@ -40,6 +40,7 @@ public static void main(String[] args) {
         else
             return "Not found, try again.";
     }
+ 
     
     
 }
