@@ -20,19 +20,6 @@ public class Admin {
         this.adminEmail = adminEmail;
     }
     
-    public void updateSolution(Solution solution, String newContent) {
-        solution.setContent(newContent);
-        
-    }
-    
-    public void alertEmployees(Notification notification) {
-        
-    }
-
-    public void sendNotification(Notification notification) {
-        
-    }
-
     public String getAdminId() {
         return adminId;
     }
