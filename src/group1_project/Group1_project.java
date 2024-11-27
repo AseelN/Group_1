@@ -1,5 +1,5 @@
 package group1_project;
-
+import java.util.Scanner;
 public class Group1_project {
 
 public static void main(String[] args) {
@@ -24,7 +24,9 @@ public static void main(String[] args) {
     }
     
     public static String validation(String [] cat,String str){
-        
+                int t= -1;
+        if(str == "")
+            return "An error occured,please try again.";
 
         
         for(int i = 0; i < cat.length ; i++){
@@ -40,6 +42,4 @@ public static void main(String[] args) {
     }
     
     
-}
-
 }
