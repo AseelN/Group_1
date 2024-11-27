@@ -1,10 +1,6 @@
 package group1_project;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import static org.junit.Assert.*;
 
 
@@ -43,8 +39,8 @@ public class Group1_projectTest {
     @Test
     public void caseDiff() {
         System.out.println("caseDiff");
-        String s = "Sahl";
-        String expResult = "sahl";
+        String s = "Sahl System";
+        String expResult = "What can we help you with?";
         String result = instance.validation(categories,s);
         assertEquals(expResult, result);
         
