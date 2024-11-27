@@ -77,9 +77,9 @@ public class Group1_projectTest {
      @Test
     public void Valid() {
         System.out.println("Valid");
-        String s = "Sahl";
+        String s = "desktop interface";
         String expResult = "What can we help you with?";
-        String result = instance.SearchCategories(s);
+        String result = instance.validation(categories,s);
         assertEquals(expResult, result);
         
     }
