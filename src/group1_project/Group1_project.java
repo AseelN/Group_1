@@ -11,7 +11,6 @@ public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         
         
-        
         System.out.println("Enter a keyword or phrase to search for information:");
         String keyword = in.nextLine().trim().toLowerCase(); // Read the keyword from the user, convert to lowercase
         
@@ -40,7 +39,7 @@ public static void main(String[] args) {
     public static String searchInfo(String fileName, String keyword) throws IOException {
         
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
-        StringBuilder informationBuilder = new StringBuilder();
+        
         StringBuilder result = new StringBuilder();
         String line;
         boolean isPrinting = false;        
@@ -66,8 +65,8 @@ public static void main(String[] args) {
                 if (allWordsMatch) {
                     isPrinting = true; //Start printing after the match
                     isMatchFound = true; //Found at least one match
-                    informationBuilder.append("\nInformation found for keyword: ").append(keyword).append("\n\n");
-                    informationBuilder.append(sectionKeyword).append("\n\n"); 
+                    result.append("\nInformation found for keyword: ").append(keyword).append("\n\n");
+                    result.append(sectionKeyword).append("\n\n"); 
                 } else {
                     isPrinting = false; //Do not print
                 }
@@ -78,17 +77,17 @@ public static void main(String[] args) {
             if (isPrinting) {
                 if (line.contains("*")) {
                     isPrinting = false; //Stop printing after the * symbol
-                    informationBuilder.append(line).append("\n"); 
+                    result.append(line).append("\n"); 
                 } else {
-                    informationBuilder.append(line).append("\n");
+                    result.append(line).append("\n");
                 }
             }
         }
 
         if (isMatchFound) {
-            result.append(informationBuilder.toString());
+            result.append(result.toString());
         } else {
-            result.append("No information found for the keyword: " + keyword);
+            result.append("No information found for the keyword: ").append(keyword);
         }
 
         reader.close(); 
