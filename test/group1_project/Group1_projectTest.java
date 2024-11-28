@@ -103,4 +103,22 @@ public class Group1_projectTest {
         String expResult = "Searching for solutions...\n\nSolution for: solutions\nIt contains some solutions.\nEnd of solution.\n\n";
         assertEquals(expResult, result);
     }
+    
+        @Test 
+    public void testKeywordNotFound() throws IOException {
+        System.out.println("Keyword Not Found");
+        String keyword = "nonexistent"; 
+        String result = instance.searchSolution(testFile.getPath(), keyword); 
+        String expResult = "Searching for solutions...\nNo solution found for the keyword: nonexistent\n"; 
+        assertEquals(expResult, result); 
+    }
+    @Test 
+    public void testMultipleOccurrences() throws IOException { 
+        System.out.println("Multiple Occurrences");
+        String keyword = "solution"; 
+        String result = instance.searchSolution(testFile.getPath(), keyword); 
+        System.out.println("actual result: \n"+result);
+        String expResult = "Searching for solutions...\n\nSolution for: solution\nHere is another solution for testing.\n*\nEnd of solution.\n\n"; 
+        assertEquals(expResult, result);
+    }
 }
