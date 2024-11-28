@@ -28,7 +28,7 @@ public class Group1_projectTest {
         
         instance = new Group1_project();
         in = new Scanner(System.in);
-        testFile = File.createTempFile("information", ".txt"); 
+        testFile = File.createTempFile("testFile", ".txt");
     }
     
     @After
@@ -66,11 +66,11 @@ public class Group1_projectTest {
     }
     
     @Test 
-    public void testValidKeyword() throws IOException { 
-        String keyword = "shortcut to desktop";
+    public void testNotValidKeyword() throws IOException { 
+        String keyword = "what time it is";
         String result = instance.searchInfo(testFile.getPath(),keyword); 
         System.out.println(result);
-        String expResult = "\nInformation found for keyword: add a shortcut to the desktop\n\nadd a shortcut to the desktop\n\nHere is the information to add a shortcut.\n*\n";
+        String expResult = "No information found for the keyword: what time it is";
         assertEquals(expResult, result);
     }
     

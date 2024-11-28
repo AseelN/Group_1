@@ -1,0 +1,118 @@
+&change password:&
+-solution 1-
+Via the security interface:
+1. Log in to the computer
+2. Move to the security interface by pressing the Ctrl + Alt + Remove buttons at the same time
+3. Select(change password)
+4. Write the old password, then write the new password and confirm it according to information security policies
+5. Click on the arrow to save the changes. 
+-solution 2-
+Via a web interface for e-mail:
+1.Go to the Main municipality website (http://www.jeddah.gov.sa)
+2.Click on the (employees e-mail) link at the bottom of the municipality website, where it will guide you to the web interface for e-mail (https://outlook.jeddah.gov.sa)
+3.Sign in into e-mail, then click on "settings" icon at the top left Arabic interface.
+4.Choose "change password" from the dropdown menu.
+5.You will be transferred to "password" page.
+6.Write current password, then write the new password and confirm it according to information security policies.
+7.Click "save".
+-solution 3-
+Via "change password for employees service"
+1.Go to the Main municipality website (http://www.jeddah.gov.sa)
+2.Click on the (employees e-mail) link at the bottom of the municipality website, where it will guide you to the web interface for e-mail (https://outlook.jeddah.gov.sa)
+3.Click "forget password?" link so you can move to "change password for employees" page throw this link (http://services.jeddah.gov.sa/ResetPassword)
+4.Enter your employee ID, national ID and verification code, then click "recover data".
+5.In case of incorrect data, you will receive an error message.
+6.In case of correct data, user information will appear. to complete password change process, click "send verification code" so you receive the code on your registered phone number in the personal affairs and the user information.
+7.When you receive the verification code, enter it in the specified field, then click "activate code".
+8.After activating the code, two fields for entering the new password and confirm it according to information security policies will appear, then click "change password".
+9.When entering successfully, you will receive "password has been changed successfully" message.* 
+
+&IP address configuration for computer:&
+-solution 1-
+Via settings:
+1. Right-click on the network icon in task manager 
+2. Click "open network and internet settings" from the popup menu
+3. Choose "Ethernet" on the right menu on the settings screen, then click on the local network icon on the left area.
+4. You will be transferred to another screen where you can see the ip address under "properties" next to "ipv4 address".
+-solution 2-
+Via control panel:
+1. Open control panel
+2. Click "network and share center" group link, then click "Ethernet" icon.
+3. Choose "Details..." from "Ethernet status" popup menu.
+4. You will be transferred to "network connection details" window where you can see the ip address next to "ipv4 address".*
+
+&Handling the offline work signal in the email application:&
+1-open the Outlook email application.
+2-Select the "Send/Receive" tab.
+3-Click on the “Work Offline” icon to make it  unshaded.*
+
+
+&Email archiving:&
+1. open the Outlook email application. 
+2. Select the “File” tab.
+3. Select “Information” from the right menu. 
+4. Select “Archive” from the “Cleanup Tools” icon.
+5. A pop-up window titled “Archive” will appear.
+6. Select “Archive this folder and all subfolders” and select the folder you want to archive. Note: When you select the first folder (usually named the user’s email), all subfolders under it will be archived.
+7. Specify the date after which you do not want to archive in the “Archive items older than:” option.
+8. If you want to change the location of saving the archive file, this is modified in the “Archive file:” option by clicking on the “Browse...” button and selecting a new location.
+9. Click on the “OK” button, where the archiving process will begin and will appear at the bottom of the application.
+10. When the archiving process is complete, the email application will open the archive file in the right menu of the application.*
+
+
+&Add a folder in the email app:&
+1. open the email application (Outlook). 
+2. Select the main folder to which the folder will be added. 
+3. Right-click and select “New Folder…” from the pop-up menu.
+4. Enter the folder name in the "Name:" field.
+5. Press the "OK" button.*
+
+
+&Add Arabic language for writing:&
+1. Select the Settings icon from the Start menu. 
+2. Select the “Language & Time” group.
+3. Select “Region & Language” in the right menu of the Settings screen. Then click on the “Add Language” icon in the left area.
+4. Go to the “Choose a language to install” section. Type “Arabic” in the search box where the available languages will be sorted automatically. Arabic (Saudi Arabia)” Click on the “Next” button.
+5. To complete the installation process, you must press the “Install” button when the “Installing Language Features” message appears.
+6. The language will appear in the “Preferred Languages” box and you can change the default language using the arrows; the first language in the list is the default language.*
+
+
+
+&Convert numbers to Arabic numerals:&
+1. Open Control Panel. 
+2. Click the “Change date, time, or number formats” link in the “Clock & Region” group.
+3. Select “Additional Settings…” in the “Formats” tab of the “Region” pop-up window. 4. The “Format Customization” pop-up window will appear where “Start” is selected under the “Numbers” tab.
+5. Click the OK button in the Format Customization pop-up window. 
+6. Click the OK button in the Region pop-up window.*
+
+
+&Add a shortcut to the desktop:&
+-solution 1-
+Add a shortcut to a website from your internet browser:
+1. Open the intended website in the browser.
+2. Select “Shortcut to Desktop” from “Send” in the “File” menu.
+-solution 2-
+Add a shortcut to a specific application or file:
+1. Right-click on the application or file and select “Create Shortcut”; the shortcut will be created directly in the same location as the application or file.*
+
+
+&Handling hanging or unresponsive programs:&
+1. Go to the security interface by pressing the Ctrl + Alt + Delete buttons (at the same time).
+2. Select.
+3. Select the suspended program. Press the “End Task” button.*
+
+
+&Troubleshooting a scanner or printer connected directly to the computer not working:&
+1. Ensure that the extensions between the scanner or printer and the computer are properly installed.
+2. If the problem persists, open the application in the sahl system.*
+
+
+
+&Troubleshooting security systems not working in the browser:&
+1. Open Control Panel.
+2. Click on the “Internet Options” group link.
+3. When the “Internet Privacy” pop-up window appears, click the “Reset” button in the “Advanced Options” tab.
+4. Press the “OK” button for the warning message.
+5. Click the “OK” button in the “Internet Privacy” pop-up window.*
+
+ 
