@@ -1,5 +1,6 @@
 package group1_project;
 
+import java.io.IOException;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -86,4 +87,20 @@ public class Group1_projectTest {
         assertEquals(expResult, result);
     }
     
+    @Test 
+    public void testEmptyKeyword() throws IOException {
+        System.out.println("Empty Keyword"); 
+        String keyword = ""; 
+        String result = instance.searchSolution(keyword);
+        String expResult = "Keyword is empty. Please provide a valid keyword.\n"; 
+        assertEquals(expResult, result); 
+    }
+    @Test 
+    public void testValidKeyword() throws IOException { 
+        String keyword = "solutions";
+        String result = instance.searchSolution(keyword); 
+        System.out.println("Actual Output:\n" + result);
+        String expResult = "Searching for solutions...\n\nSolution for: solutions\nIt contains some solutions.\nEnd of solution.\n\n";
+        assertEquals(expResult, result);
+    }
 }

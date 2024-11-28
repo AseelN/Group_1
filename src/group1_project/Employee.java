@@ -4,20 +4,25 @@
  * and open the template in the editor.
  */
 package group1_project;
+ 
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- *
- * @author LayanM
- */
 public class Employee {
-     String employeeId;
-     String employeeName;
-     String employeeEmail;
+    private String employeeId;
+    private String employeeName;
+    private String employeeEmail;
+    private List<Comment> comments;
 
     public Employee(String employeeId, String employeeName, String employeeEmail) {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.employeeEmail = employeeEmail;
+        this.comments = new ArrayList<>();
+    }
+
+    public Employee(String employeeId) {
+        this.employeeId = employeeId;
     }
     
     public void searchProblem(String category){
@@ -35,7 +40,15 @@ public class Employee {
     public void receiveInfo(String info){
         
     }
-
+    
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+    
+    public List<Comment> getComments() {
+        return comments; 
+    }
+    
     public String getEmployeeId() {
         return employeeId;
     }
