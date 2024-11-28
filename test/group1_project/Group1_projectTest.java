@@ -1,20 +1,16 @@
 package group1_project;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 import org.junit.*;
 import static org.junit.Assert.*;
 
 
 public class Group1_projectTest {
     Group1_project instance;
-    
-        String[] categories = { 
-            "sahl System", 
-            "desktop interface", 
-            "security interface", 
-            "ip address connfigurtion", 
-            "change password" 
-        };
+        Scanner in;
+        File testFile;
         
     public Group1_projectTest() {
     }
@@ -28,9 +24,11 @@ public class Group1_projectTest {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         
         instance = new Group1_project();
+        in = new Scanner(System.in);
+        testFile = File.createTempFile("testFile", ".txt"); 
     }
     
     @After
@@ -41,8 +39,8 @@ public class Group1_projectTest {
     public void caseDiff() {
         System.out.println("caseDiff");
         String s = "Sahl System";
-        String expResult = "What can we help you with?";
-        String result = instance.validation(categories,s);
+        String expResult = "";
+        String result = instance.validation(s, in);
         assertEquals(expResult, result);
         
         
@@ -54,7 +52,7 @@ public class Group1_projectTest {
         System.out.println("Empty");
         String s = "";
         String expResult = "An error occured,please try again.";
-        String result = instance.validation(categories,s);
+        String result = instance.validation(s, in);
         assertEquals(expResult, result);
         
     }
@@ -64,7 +62,7 @@ public class Group1_projectTest {
         System.out.println("NotValid");
         String s = "crash";
         String expResult = "Not found, try again.";
-        String result = instance.validation(categories,s);
+        String result = instance.validation(s, in);
         assertEquals(expResult, result);
         
     }
@@ -74,7 +72,7 @@ public class Group1_projectTest {
         System.out.println("Valid");
         String s = "desktop interface";
         String expResult = "What can we help you with?";
-        String result = instance.validation(categories,s);
+        String result = instance.validation(s, in);
         assertEquals(expResult, result);
         
     }
@@ -83,7 +81,7 @@ public class Group1_projectTest {
     public void notString(){
         String s="1";
         String expResult = "An error occured,please try again.";
-        String result = instance.validation(categories,s);
+        String result = instance.validation(s, in);
         assertEquals(expResult, result);
     }
     
@@ -91,16 +89,17 @@ public class Group1_projectTest {
     public void testEmptyKeyword() throws IOException {
         System.out.println("Empty Keyword"); 
         String keyword = ""; 
-        String result = instance.searchSolution(keyword);
-        String expResult = "Keyword is empty. Please provide a valid keyword.\n"; 
+        String result = instance.searchInfo(testFile.getPath(),keyword);
+        String expResult = "No information found for the keyword: ";
         assertEquals(expResult, result); 
     }
+    
     @Test 
     public void testValidKeyword() throws IOException { 
-        String keyword = "solutions";
-        String result = instance.searchSolution(keyword); 
-        System.out.println("Actual Output:\n" + result);
-        String expResult = "Searching for solutions...\n\nSolution for: solutions\nIt contains some solutions.\nEnd of solution.\n\n";
+        String keyword = "shortcut to desktop";
+        String result = instance.searchInfo(testFile.getPath(),keyword); 
+        System.out.println(result);
+        String expResult = "\nInformation found for keyword: add a shortcut to the desktop\n\nadd a shortcut to the desktop\n\nHere is the information to add a shortcut.\n*\n";
         assertEquals(expResult, result);
     }
     
@@ -108,17 +107,16 @@ public class Group1_projectTest {
     public void testKeywordNotFound() throws IOException {
         System.out.println("Keyword Not Found");
         String keyword = "nonexistent"; 
-        String result = instance.searchSolution(testFile.getPath(), keyword); 
-        String expResult = "Searching for solutions...\nNo solution found for the keyword: nonexistent\n"; 
+        String result = instance.searchInfo(testFile.getPath(), keyword); 
+        String expResult =  "No information found for the keyword: nonexistent"; 
         assertEquals(expResult, result); 
     }
     @Test 
     public void testMultipleOccurrences() throws IOException { 
         System.out.println("Multiple Occurrences");
-        String keyword = "solution"; 
-        String result = instance.searchSolution(testFile.getPath(), keyword); 
-        System.out.println("actual result: \n"+result);
-        String expResult = "Searching for solutions...\n\nSolution for: solution\nHere is another solution for testing.\n*\nEnd of solution.\n\n"; 
+        String keyword = "shortcut"; 
+        String result = instance.searchInfo(testFile.getPath(), keyword); 
+        String expResult = "\nInformation found for keyword: information example\n\ninformation example\n\nExample information details.\n*\n"; 
         assertEquals(expResult, result);
     }
 }

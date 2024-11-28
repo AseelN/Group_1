@@ -1,49 +1,100 @@
 package group1_project;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
+
 public class Group1_project {
 
 public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         
-        System.out.println("Choose category to help search for information:");
-        String[] categories = { 
-            "sahl system", 
-            "desktop interface", 
-            "security interface", 
-            "ip address connfigurtion", 
-            "change password" 
-        };
         
-        for(int i = 0; i < categories.length; i ++){
-            System.out.println(categories[i]);
+        
+        System.out.println("Enter a keyword or phrase to search for information:");
+        String keyword = in.nextLine().trim().toLowerCase(); // Read the keyword from the user, convert to lowercase
+        
+        System.out.println(validation(keyword, in));
+        
+        try {
+            System.out.println(searchInfo("information.txt", keyword)); // Call the search method with the file name and keyword
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the file: " + e.getMessage());
         }
         
-        String str = in.next();
-        String what = validation(categories, str);
         
     }
     
-    public static String validation(String [] cat,String str){
-                int t= -1;
+    public static String validation(String str, Scanner in){
         //input empty or digit
-        if(str.isEmpty() || !str.matches("[a-zA-Z ]+"))
-            return "An error occured,please try again.";
+        if(str.isEmpty() || !str.matches("[a-zA-Z ]+")){
+            return "An error occured,please try again :"; 
+
+        }
+        else 
+            return "Searching for solutions...";
+            
+    }
+    
+    public static String searchInfo(String fileName, String keyword) throws IOException {
+        
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        StringBuilder informationBuilder = new StringBuilder();
+        StringBuilder result = new StringBuilder();
+        String line;
+        boolean isPrinting = false;        
+        boolean isMatchFound = false;      
+        
+        String[] searchWords = keyword.split("\\s+"); //Split the keyword into words 
 
         
-        for(int i = 0; i < cat.length ; i++){
-            if(cat[i].equalsIgnoreCase(str))
-                t = i;
-           
+        while ((line = reader.readLine()) != null) {
+            
+            line = line.trim();
+             if (line.startsWith("&") && line.endsWith("&")) {
+                String sectionKeyword = line.substring(1, line.length() - 1).toLowerCase(); 
+                boolean allWordsMatch = true;
+                
+                for (String word : searchWords) {
+                    if (!sectionKeyword.contains(word)) {//If any word is missing, set the flag to false
+                        allWordsMatch = false;
+                        break;
+                    }
+                }
+
+                if (allWordsMatch) {
+                    isPrinting = true; //Start printing after the match
+                    isMatchFound = true; //Found at least one match
+                    informationBuilder.append("\nInformation found for keyword: ").append(keyword).append("\n\n");
+                    informationBuilder.append(sectionKeyword).append("\n\n"); 
+                } else {
+                    isPrinting = false; //Do not print
+                }
+                continue;
+            }
+
+            
+            if (isPrinting) {
+                if (line.contains("*")) {
+                    isPrinting = false; //Stop printing after the * symbol
+                    informationBuilder.append(line).append("\n"); 
+                } else {
+                    informationBuilder.append(line).append("\n");
+                }
+            }
         }
+
+        if (isMatchFound) {
+            result.append(informationBuilder.toString());
+        } else {
+            result.append("No information found for the keyword: " + keyword);
+        }
+
+        reader.close(); 
         
-        if(t != -1)
-            return "What can we help you with?";
-        else
-            return "Not found, try again.";
+        return result.toString();
     }
- 
-    
 }
     
 
