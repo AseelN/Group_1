@@ -1,7 +1,9 @@
 package group1_project;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -23,8 +25,30 @@ public static void main(String[] args) {
         }
         
         
-    }
     
+    ////////////////////////////////////////////////////////////////////////////
+        File comments = new File("comments.txt");
+     
+        try (FileWriter write = new FileWriter(comments, true)){
+
+            System.out.print("Welcome, please enter your ID: ");
+            String employeeId = in.nextLine();
+           
+            Employee emp = new Employee(employeeId, "defaultName", "defaultEmail");
+
+            System.out.print("Would you like to add a comment? (yes/no): ");
+            String answer = in.nextLine();
+
+            if (answer.equalsIgnoreCase("yes")) {
+                
+                addComment(write, in, emp);
+            } else {
+                System.out.println("Thank you, hope you have a great experience!");
+            }} 
+        catch (IOException e) {
+            System.out.println("An error occurred while writing to the file: " + e.getMessage());
+        }}
+    ////////////////////////////////////////////////////////////////////////////
     public static String validation(String str, Scanner in){
         //input empty or digit
         if(str.isEmpty() || !str.matches("[a-zA-Z ]+")){
@@ -92,6 +116,24 @@ public static void main(String[] args) {
         
         return result.toString();
     }
+    ////////////////////////////////////////////////////////////////////////////
+    public static String addComment(FileWriter writer, Scanner in, Employee emp) throws IOException {
+    System.out.println("Please enter your comment:");
+    String commentText = in.nextLine();
+
+    Comment comment = new Comment(commentText, emp);
+
+    emp.addComment(comment);
+    
+    writer.append("Employee ID: ").append(emp.getEmployeeId()).append("\n");
+    for (Comment c : emp.getComments()) {
+        writer.append("- ").append(c.getComment()).append(" (Comment ID: ").append(c.getCommentId()).append(")\n");
+    }
+
+    System.out.println("Thank you. Your comment ID is: " + comment.getCommentId());
+
+    return "Comment added successfully with Comment ID: " + comment.getCommentId();
+}
 }
     
 

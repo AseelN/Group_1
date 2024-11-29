@@ -9,44 +9,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Employee {
-    private String employeeId;
-    private String employeeName;
-    private String employeeEmail;
-    private List<Comment> comments;
+    
+     String employeeId;
+     private String employeeName;
+     private String employeeEmail;
+     private List<Comment> comments;
 
     public Employee(String employeeId, String employeeName, String employeeEmail) {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.employeeEmail = employeeEmail;
-        this.comments = new ArrayList<>();
+        this.comments = new ArrayList<>(); 
     }
 
     public Employee(String employeeId) {
-        this.employeeId = employeeId;
+        this(employeeId, "defaultName", "defaultEmail"); 
     }
-    
-    public void searchProblem(String category){
-        
-    }
-    
-    public void sendFeedback(Feedback feedback){
-        
-    }
-    
-    public void sendInfo(String info){
-        
-    }
-    
-    public void receiveInfo(String info){
-        
-    }
-    
+
     public void addComment(Comment comment) {
         comments.add(comment);
     }
-    
+
     public List<Comment> getComments() {
-        return comments; 
+        return comments;
     }
     
     public String getEmployeeId() {
@@ -60,6 +45,8 @@ public class Employee {
     public String getEmployeeEmail() {
         return employeeEmail;
     }
-    
-    
 }
+
+    
+    
+

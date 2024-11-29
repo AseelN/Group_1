@@ -3,30 +3,30 @@ package group1_project;
 
 class Comment {
     
-    private static int idCounter = 1; // Static counter to generate unique IDs
-    private String commentId;         // Unique ID for the comment
-    private String comment;           // The actual comment text
-    private Employee employee;        // The associated employee
+    private static int idCounter = 1; 
+    private String commentId;         
+    private String comment;           
+    private Employee employee;        
 
-    // Constructor 1: Takes only the comment text
+    
     public Comment(String comment) {
-        this.commentId = generateCommentId(); // Automatically generate the comment ID
+        this.commentId = generateCommentId(); 
         this.comment = comment;
     }
 
-    // Constructor 2: Takes the comment text and the associated employee
+    
     public Comment(String comment, Employee employee) {
-        this.commentId = generateCommentId(); // Automatically generate the comment ID
+        this.commentId = generateCommentId(); 
         this.comment = comment;
         this.employee = employee;
     }
 
-    // Generate a unique comment ID
+    
     private static String generateCommentId() {
-        return "C" + (idCounter++); // Prefix "C" with an incrementing number
+        return "C" + (idCounter++); 
     }
 
-    // Getters and Setters (optional)
+    
     public String getCommentId() {
         return commentId;
     }
