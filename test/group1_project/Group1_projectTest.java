@@ -1,7 +1,10 @@
 package group1_project;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.Scanner;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -84,4 +87,33 @@ public class Group1_projectTest {
         String expResult =  "No information found for the keyword: nonexistent"; 
         assertEquals(expResult, result); 
     }
+    
+    @Test
+    public void commentAdded() throws IOException {
+    
+    Employee emp = new Employee("1234");
+    Scanner in = new Scanner("This is a test comment\n");
+    File testFile = new File("test_comments.txt");
+    FileWriter writer = new FileWriter(testFile, true);
+
+    String result = instance.addComment(writer, in, emp);
+    writer.flush();
+    writer.close();
+
+    assertTrue(result.contains("Comment added successfully with Comment ID:"));
+}
+    @Test
+    public void foundEmployeeId() throws IOException {
+    Employee emp = new Employee("5678");
+    String testComment = "sample comment";
+    Scanner in = new Scanner(testComment + "\n");
+    FileWriter writer = new FileWriter("test_comments.txt", true);
+    
+    instance.addComment(writer, in, emp);
+    writer.flush();
+    writer.close();
+
+    List<String> fileContent = Files.readAllLines(new File("test_comments.txt").toPath());
+    assertTrue(fileContent.contains("Employee ID: 5678"));
+}
 }
