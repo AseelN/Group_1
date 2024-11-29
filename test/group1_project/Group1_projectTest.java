@@ -32,6 +32,12 @@ public class Group1_projectTest {
         instance = new Group1_project();
         in = new Scanner(System.in);
         testFile = File.createTempFile("testFile", ".txt");
+         try (FileWriter writer = new FileWriter(testFile)) {
+            writer.write("Employee ID: 1234\n");
+            writer.write("- This is a sample comment. (Comment ID: 1)\n");
+            writer.write("Employee ID: 5678\n");
+            writer.write("- Another comment for testing. (Comment ID: 2)\n");
+        }
     }
     
     @After
@@ -73,7 +79,7 @@ public class Group1_projectTest {
         System.out.println("not valid");
         String keyword = "what time it is";
         String result = instance.searchInfo(testFile.getPath(),keyword); 
-        System.out.println(result);
+        
         String expResult = "No information found for the keyword: what time it is";
         assertEquals(expResult, result);
     }
@@ -83,7 +89,7 @@ public class Group1_projectTest {
         System.out.println("Keyword Not Found");
         String keyword = "nonexistent"; 
         String result = instance.searchInfo(testFile.getPath(), keyword); 
-        System.out.println(result);
+        
         String expResult =  "No information found for the keyword: nonexistent"; 
         assertEquals(expResult, result); 
     }
@@ -91,70 +97,61 @@ public class Group1_projectTest {
     @Test
     public void commentAdded() throws IOException {
     
-    Employee emp = new Employee("1234");
-    Scanner in = new Scanner("This is a test comment\n");
-    File testFile = new File("test_comments.txt");
-    FileWriter writer = new FileWriter(testFile, true);
+        Employee emp = new Employee("1234");
+        Scanner in = new Scanner("This is a test comment\n");
+        File testFile = new File("test_comments.txt");
+        FileWriter writer = new FileWriter(testFile, true);
 
-    String result = instance.addComment(writer, in, emp);
-    writer.flush();
-    writer.close();
+        String result = instance.addComment(writer, in, emp);
+        writer.flush();
+        writer.close();
 
-    assertTrue(result.contains("Comment added successfully with Comment ID:"));
+        assertTrue(result.contains("Comment added successfully with Comment ID:"));
     }
     
     @Test
     public void foundEmployeeId() throws IOException {
-    Employee emp = new Employee("5678");
-    String testComment = "sample comment";
-    Scanner in = new Scanner(testComment + "\n");
-    FileWriter writer = new FileWriter("test_comments.txt", true);
+        Employee emp = new Employee("5678");
+        String testComment = "sample comment";
+        Scanner in = new Scanner(testComment + "\n");
+        FileWriter writer = new FileWriter("test_comments.txt", true);
     
-    instance.addComment(writer, in, emp);
-    writer.flush();
-    writer.close();
+        instance.addComment(writer, in, emp);
+        writer.flush();
+        writer.close();
 
-    List<String> fileContent = Files.readAllLines(new File("test_comments.txt").toPath());
-    assertTrue(fileContent.contains("Employee ID: 5678"));
+        List<String> fileContent = Files.readAllLines(new File("test_comments.txt").toPath());
+        assertTrue(fileContent.contains("Employee ID: 5678"));
     }
     
     @Test
     public void testReviewComments() throws IOException {
-    
-    File testFile = new File("test_comments.txt");
-    try (FileWriter writer = new FileWriter(testFile)) {
-        writer.write("Employee ID: 1234\n");
-        writer.write("- This is a sample comment.\n");
-        writer.write("Employee ID: 5678\n");
-        writer.write("- Another comment for testing.\n");
-    }
+        List<String> comments = instance.reviewComments(testFile.getPath());
 
-    List<String> comments = instance.reviewComments(testFile.getPath());
-
-    assertEquals(2, comments.size());
-    assertTrue(comments.contains("This is a sample comment."));
-    assertTrue(comments.contains("Another comment for testing."));
-
-    testFile.delete();
+        assertEquals(2, comments.size());
+        assertTrue(comments.contains("Employee ID: 1234 | Comment: This is a sample comment. (Comment ID: 1) | Has Feedback: false"));
+        assertTrue(comments.contains("Employee ID: 5678 | Comment: Another comment for testing. (Comment ID: 2) | Has Feedback: false"));
     }
 
     @Test
     public void testReviewCommentsWithEmployeeIds() throws IOException {
-    
-    File testFile = new File("test_comments_2.txt");
-    try (FileWriter writer = new FileWriter(testFile)) {
-        writer.write("Employee ID: 1234\n");
-        writer.write("- This is a test comment. (Comment ID: 1)\n");
-        writer.write("Employee ID: 5678\n");
-        writer.write("- Another test comment. (Comment ID: 2)\n");
+        List<String> comments = instance.reviewComments(testFile.getPath());
+
+        assertEquals(2, comments.size());
+        boolean foundFirstEmployee = false;
+        boolean foundSecondEmployee = false;
+
+        for (String comment : comments) {
+            if (comment.contains("Employee ID: 1234")) {
+                foundFirstEmployee = true;
+            }
+            if (comment.contains("Employee ID: 5678")) {
+                foundSecondEmployee = true;
+            }
+        }
+
+        assertTrue(foundFirstEmployee);
+        assertTrue(foundSecondEmployee);
     }
 
-    List<String> comments = instance.reviewComments(testFile.getPath());
-
-    assertEquals(2, comments.size());
-    assertTrue(comments.contains("Employee ID: 1234 | This is a sample comment. (Comment ID: 1)"));
-    assertTrue(comments.contains("Employee ID: 5678 | Another test comment. (Comment ID: 2)"));
-
-    testFile.delete();
-    }
 }

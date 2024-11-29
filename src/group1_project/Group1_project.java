@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Group1_project {
@@ -47,7 +49,28 @@ public static void main(String[] args) {
             }} 
         catch (IOException e) {
             System.out.println("An error occurred while writing to the file: " + e.getMessage());
-        }}
+        }
+         String fileName = "comments.txt";
+
+    try {
+        // Call the reviewComments method
+        List<String> adminComments = reviewComments(fileName);
+
+        // Display comments for admin review
+        if (adminComments.isEmpty()) {
+            System.out.println("No comments available for review.");
+        } else {
+            System.out.println("Comments for review:");
+            for (String entry : adminComments) {
+                System.out.println(entry);
+            }
+        }
+    } catch (IOException e) {
+        System.out.println("An error occurred while reviewing comments: " + e.getMessage());
+    }
+    
+        in.close();
+}
     ////////////////////////////////////////////////////////////////////////////
     public static String validation(String str, Scanner in){
         //input empty or digit
@@ -133,6 +156,30 @@ public static void main(String[] args) {
     System.out.println("Thank you. Your comment ID is: " + comment.getCommentId());
 
     return "Comment added successfully with Comment ID: " + comment.getCommentId();
+}
+    
+    public static List<String> reviewComments(String fileName) throws IOException {
+    List<String> reviewEntries = new ArrayList<>();
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+        String line;
+        String currentEmployeeId = null;
+
+        while ((line = reader.readLine()) != null) {
+            line = line.trim();
+
+            if (line.startsWith("Employee ID: ")) {
+                currentEmployeeId = line.substring(13);
+            } else if (line.startsWith("- ") && currentEmployeeId != null) {
+                String commentText = line.substring(2);
+                boolean hasFeedback = commentText.contains("(Feedback)"); // Check feedback flag
+                reviewEntries.add("Employee ID: " + currentEmployeeId + " | Comment: " + commentText +
+                        " | Has Feedback: " + hasFeedback);
+            }
+        }
+    }
+
+    return reviewEntries;
 }
 }
     
