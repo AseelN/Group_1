@@ -67,6 +67,7 @@ public class Group1_projectTest {
     
     @Test 
     public void testNotValidKeyword() throws IOException { 
+        System.out.println("not valid");
         String keyword = "what time it is";
         String result = instance.searchInfo(testFile.getPath(),keyword); 
         System.out.println(result);
@@ -79,6 +80,7 @@ public class Group1_projectTest {
         System.out.println("Keyword Not Found");
         String keyword = "nonexistent"; 
         String result = instance.searchInfo(testFile.getPath(), keyword); 
+        System.out.println(result);
         String expResult =  "No information found for the keyword: nonexistent"; 
         assertEquals(expResult, result); 
     }

@@ -84,7 +84,7 @@ public static void main(String[] args) {
             }
         }
 
-        if (isMatchFound) {
+        if (!isMatchFound) {
             result.append("No information found for the keyword: ").append(keyword);
         }
 
