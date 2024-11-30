@@ -28,7 +28,7 @@ public class Group1_projectTest {
     
     @Before
     public void setUp() throws IOException {
-        
+
         instance = new Group1_project();
         in = new Scanner(System.in);
         testFile = File.createTempFile("testFile", ".txt");
@@ -38,6 +38,7 @@ public class Group1_projectTest {
             writer.write("Employee ID: 5678\n");
             writer.write("- Another comment for testing. (Comment ID: 2)\n");
         }
+         
     }
     
     @After
@@ -153,5 +154,30 @@ public class Group1_projectTest {
         assertTrue(foundFirstEmployee);
         assertTrue(foundSecondEmployee);
     }
+    
+    @Test
+    public void ProvideFeedbackSuccess() throws IOException {
+        Scanner scanner = new Scanner("1\nThis is feedback for comment 1\n");
+        Admin a = new Admin("A001");
 
+        String result = instance.provideFeedback(testFile.getPath(), scanner, a);
+        
+        assertEquals("Feedback added successfully", result);
+
+        List<String> lines = Files.readAllLines(testFile.toPath());
+        assertTrue(lines.contains("Admin Feedback by Admin ID: A001"));
+        assertTrue(lines.contains("Feedback: This is feedback for comment 1"));
+    }
+
+    @Test
+    public void ProvideFeedbackCommentIdNotFound() throws IOException {
+        Scanner scanner = new Scanner("11\n");
+        Admin a = new Admin("A001");
+
+        String result = instance.provideFeedback(testFile.getPath(), scanner, a);
+        assertEquals("Comment ID not found", result);
+
+        List<String> lines = Files.readAllLines(testFile.toPath());
+        assertEquals(4, lines.size()); 
+    }
 }
