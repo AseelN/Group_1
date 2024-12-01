@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -69,6 +70,21 @@ public static void main(String[] args) {
         System.out.println("An error occurred while reviewing comments: " + e.getMessage());
     }
     
+    System.out.print("Are you an admin and want to provide feedback? (yes/no): ");
+    String isAdmin = in.nextLine();
+
+    if (isAdmin.equalsIgnoreCase("yes")) {
+        System.out.print("Enter Admin ID: ");
+        String adminId = in.nextLine();
+
+        Admin admin = new Admin(adminId); 
+
+        try {
+            provideFeedback(fileName, in, admin); //call the provideFeedback method                                                           
+        } catch (IOException e) {
+            System.out.println("An error occurred while providing feedback: " + e.getMessage());
+        }
+    }
         in.close();
 }
     ////////////////////////////////////////////////////////////////////////////
@@ -181,7 +197,52 @@ public static void main(String[] args) {
 
     return reviewEntries;
 }
-    ///////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public static String provideFeedback(String filePath, Scanner in, Admin admin) throws IOException {
+
+    List<String> lines = Files.readAllLines(new File(filePath).toPath());
+
+
+    System.out.println("Enter the Comment ID to provide feedback:");
+    String commentId = in.nextLine();
+
+    if (commentId.endsWith(".")) {
+        commentId = commentId.substring(0, commentId.length() - 1);
+    }
+    
+    if (!commentId.matches("C\\d+")) {
+        return "Invalid input";
+    }
+
+    //find comment ID in file
+    boolean commentFound = false;
+    for (int i = 0; i < lines.size(); i++) {
+        String line = lines.get(i);
+        if (line.contains("(Comment ID: " + commentId + ")")) {
+            commentFound = true;
+ 
+            //provide feedback
+            System.out.println("Enter your feedback:");
+            String feedback = in.nextLine();  
+            
+            String feedbackLine = "  Admin Feedback by Admin ID: " + admin.getAdminId() + "\n" +
+                                  "  Feedback: " + feedback;
+            lines.add(i + 1, feedbackLine); 
+            break;
+        }
+    }
+
+   
+    if (!commentFound) {
+        return "Comment ID not found";
+    }
+
+  
+    // write feedback in file
+    Files.write(new File(filePath).toPath(), lines);
+
+    return "Feedback added successfully for Comment ID: " + commentId;
+}
 }
     
 

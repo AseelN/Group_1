@@ -19,6 +19,10 @@ public class Admin {
         this.adminName = adminName;
         this.adminEmail = adminEmail;
     }
+
+    Admin(String adminId) {
+        this.adminId = adminId;
+    }
     
     public String getAdminId() {
         return adminId;
