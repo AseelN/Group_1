@@ -1,6 +1,7 @@
 package group1_project;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -268,48 +269,58 @@ public static void main(String[] args) {
     return reviewEntries;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static String provideFeedback(String filePath, Scanner in, Admin admin) throws IOException {
+  public static String provideFeedback(String filePath, Scanner in, Admin admin) throws IOException {
+    if (admin == null || admin.getAdminId() == null) {
+        return "Admin details are missing. Unable to provide feedback.";
+    }
 
-    List<String> lines = Files.readAllLines(new File(filePath).toPath());
+    File file = new File(filePath);
+    if (!file.exists()) {
+        return "File not found: " + filePath;
+    }
 
+    List<String> lines = new ArrayList<>();
+    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            lines.add(line);
+        }
+    }
 
     System.out.println("Enter the Comment ID to provide feedback:");
-    String commentId = in.nextLine();
+    String commentId = in.nextLine().trim();
 
-    if (commentId.endsWith(".")) {
-        commentId = commentId.substring(0, commentId.length() - 1);
-    }
-    
     if (!commentId.matches("C\\d+")) {
-        return "Invalid input";
+        return "Invalid Comment ID format";
     }
 
-    //find comment ID in file
     boolean commentFound = false;
     for (int i = 0; i < lines.size(); i++) {
-        String line = lines.get(i);
-        if (line.contains("(Comment ID: " + commentId + ")")) {
+        if (lines.get(i).contains("(Comment ID: " + commentId + ")")) {
             commentFound = true;
- 
-            //provide feedback
+
+            // Add feedback below the comment
             System.out.println("Enter your feedback:");
-            String feedback = in.nextLine();  
-            
+            String feedback = in.nextLine().trim();
+
             String feedbackLine = "  Admin Feedback by Admin ID: " + admin.getAdminId() + "\n" +
                                   "  Feedback: " + feedback;
-            lines.add(i + 1, feedbackLine); 
+            lines.add(i + 1, feedbackLine);
             break;
         }
     }
 
-   
     if (!commentFound) {
         return "Comment ID not found";
     }
 
-  
-    // write feedback in file
-    Files.write(new File(filePath).toPath(), lines);
+    // Write the updated lines back to the file
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+        for (String line : lines) {
+            writer.write(line);
+            writer.newLine();
+        }
+    }
 
     return "Feedback added successfully for Comment ID: " + commentId;
 }
