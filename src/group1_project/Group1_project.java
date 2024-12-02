@@ -13,81 +13,151 @@ import java.util.Scanner;
 public class Group1_project {
 
 public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        
-        
-        System.out.println("Enter a keyword or phrase to search for information:");
-        String keyword = in.nextLine().trim().toLowerCase(); // Read the keyword from the user, convert to lowercase
-        
-        System.out.println(validation(keyword, in));
-        
-        try {
-            System.out.println(searchInfo("information.txt", keyword)); // Call the search method with the file name and keyword
-        } catch (IOException e) {
-            System.out.println("An error occurred while reading the file: " + e.getMessage());
-        }
-        
-        
+    Scanner in = new Scanner(System.in);
+    System.out.println("Welcome!");
+    System.out.print("Enter your user ID: ");
+    String userId = in.nextLine().trim();
     
-    ////////////////////////////////////////////////////////////////////////////
-        File comments = new File("comments.txt");
-     
-        try (FileWriter write = new FileWriter(comments, true)){
-
-            System.out.print("Welcome, please enter your ID: ");
-            String employeeId = in.nextLine();
-           
-            Employee emp = new Employee(employeeId, "defaultName", "defaultEmail");
-
-            System.out.print("Would you like to add a comment? (yes/no): ");
-            String answer = in.nextLine();
-
-            if (answer.equalsIgnoreCase("yes")) {
-                
-                addComment(write, in, emp);
-            } else {
-                System.out.println("Thank you, hope you have a great experience!");
-            }} 
-        catch (IOException e) {
-            System.out.println("An error occurred while writing to the file: " + e.getMessage());
-        }
-         String fileName = "comments.txt";
-
-    try {
-        // Call the reviewComments method
-        List<String> adminComments = reviewComments(fileName);
-
-        // Display comments for admin review
-        if (adminComments.isEmpty()) {
-            System.out.println("No comments available for review.");
+    //admin or employee
+    userAccess(userId, in);}
+    public static void userAccess(String userId, Scanner in) {
+    if (userId != null && !userId.isEmpty()) {
+        char userType = userId.charAt(0);
+        if (userType == 'E') {
+            employeeMenu(userId, in);//employee
+        } else if (userType == 'A') {
+            adminMenu(in, new Admin(userId));//admin
         } else {
-            System.out.println("Comments for review:");
-            for (String entry : adminComments) {
-                System.out.println(entry);
+            System.out.println("Invalid user ID prefix.");
+        }
+    } else {
+        System.out.println("Invalid user ID.");  
+        }
+    }
+    ////////////////////////////////////////////////////////////////////////////
+    public static void employeeMenu(String employeeId, Scanner in) {
+    Employee employee = new Employee(employeeId, "defaultName", "defaultEmail");
+
+    while (true) {
+        displayEmployeeMenu(); 
+
+        String choice = in.nextLine().trim();
+        if (choice.equals("1")) {
+            handleSearchInformation(in); 
+        } else if (choice.equals("2")) {
+            handleSendComment(in, employee); 
+        } else if (choice.equals("3")) {
+            System.out.println("Thank you! Hope you have a great experience.");
+            break; 
+        } else {
+            System.out.println("Invalid choice. Please try again.");
+        }
+    }
+}
+
+    //display employee menu 
+    private static void displayEmployeeMenu() {
+    System.out.println("\nEmployee Menu:");
+    System.out.println("1. Search for Information");
+    System.out.println("2. Send a Comment");
+    System.out.println("3. Exit");
+    System.out.print("Enter your choice: ");
+}
+
+    //search for information 
+    private static void handleSearchInformation(Scanner in) {
+    while (true) {
+        System.out.print("Enter a keyword to search for information: ");
+        String keyword = in.nextLine().trim().toLowerCase();
+
+        if (validation(keyword, in).equals("Searching for solutions...")) {
+            try {
+                System.out.println(searchInfo("information.txt", keyword));
+            } catch (IOException e) {
+                System.out.println("An error occurred while reading the file: " + e.getMessage());
             }
+        }
+
+        System.out.print("Do you want to search for another keyword? (yes/no): ");
+        if (!in.nextLine().trim().equalsIgnoreCase("yes")) {
+            break;
+        }
+    }
+}
+
+    //send comment
+    private static void handleSendComment(Scanner in, Employee employee) {
+    try (FileWriter writer = new FileWriter("comments.txt", true)) {
+        addComment(writer, in, employee);
+    } catch (IOException e) {
+        System.out.println("An error occurred while saving the comment: " + e.getMessage());
+    }
+}
+  
+    ////////////////////////////////////////////////////////////////////////////
+    public static void adminMenu(Scanner in, Admin admin) {
+    while (true) {
+        displayAdminMenu();
+        String choice = in.nextLine().trim();
+
+        if (choice.equals("1")) {
+            viewCommentsWithoutFeedback(in, admin);
+        } else if (choice.equals("2")) {
+            exitAdminMenu();
+        } else {
+            System.out.println("Invalid choice. Please try again.");
+        }
+    }
+}
+    //display admin menu
+    private static void displayAdminMenu() {
+    System.out.println("\nAdmin Menu:");
+    System.out.println("1. View Comments Without Feedback");
+    System.out.println("2. Exit");
+    System.out.print("Enter your choice: ");
+}
+
+    //view comments without feedback
+    private static void viewCommentsWithoutFeedback(Scanner in, Admin admin) {
+    try {
+        List<String> comments = reviewComments("comments.txt");
+
+        if (comments.isEmpty()) {
+            System.out.println("No comments available for review.");
+            return;
+        }
+
+        displayComments(comments);
+
+        if (askForFeedback(in)) {
+            String result = provideFeedback("comments.txt", in, admin);
+            System.out.println(result);
         }
     } catch (IOException e) {
         System.out.println("An error occurred while reviewing comments: " + e.getMessage());
     }
-    
-    System.out.print("Are you an admin and want to provide feedback? (yes/no): ");
-    String isAdmin = in.nextLine();
-
-    if (isAdmin.equalsIgnoreCase("yes")) {
-        System.out.print("Enter Admin ID: ");
-        String adminId = in.nextLine();
-
-        Admin admin = new Admin(adminId); 
-
-        try {
-            provideFeedback(fileName, in, admin); //call the provideFeedback method                                                           
-        } catch (IOException e) {
-            System.out.println("An error occurred while providing feedback: " + e.getMessage());
-        }
-    }
-        in.close();
 }
-    ////////////////////////////////////////////////////////////////////////////
+
+    //exit menu
+    private static void exitAdminMenu() {
+    System.out.println("Exiting Admin Menu...");
+    System.exit(0); 
+}
+
+    //display comments 
+    private static void displayComments(List<String> comments) {
+    System.out.println("Comments without feedback:");
+    for (String entry : comments) {
+        System.out.println(entry);
+    }
+}
+
+    //ask for feedback 
+    private static boolean askForFeedback(Scanner in) {
+    System.out.print("Do you want to provide feedback for any comment? (yes/no): ");
+    return in.nextLine().trim().equalsIgnoreCase("yes");
+}
+///////////////////////////////////////////////////////////////////////////////
     public static String validation(String str, Scanner in){
         //input empty or digit
         if(str.isEmpty() || !str.matches("[a-zA-Z ]+")){
