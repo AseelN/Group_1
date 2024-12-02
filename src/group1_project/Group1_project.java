@@ -16,7 +16,7 @@ public class Group1_project {
 public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     System.out.println("Welcome!");
-    System.out.print("Enter your user ID: ");
+    System.out.print("Enter your user ID (A for Admin, E for Employee): ");
     String userId = in.nextLine().trim();
     
     //admin or employee
@@ -169,63 +169,72 @@ public static void main(String[] args) {
             return "Searching for solutions...";
             
     }
-    
-    public static String searchInfo(String fileName, String keyword) throws IOException {
-        
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-        
+///////////////////////////////////////////////////////////////////////////////////////   
+public static String searchInfo(String fileName, String keyword) throws IOException {
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
         StringBuilder result = new StringBuilder();
+        boolean isPrinting = false;  
+        boolean isMatchFound = false; 
+
+        String[] searchWords = keyword.split("\\s+");  
+
         String line;
-        boolean isPrinting = false;        
-        boolean isMatchFound = false;      
-        
-        String[] searchWords = keyword.split("\\s+"); //Split the keyword into words 
-
-        
         while ((line = reader.readLine()) != null) {
-            
             line = line.trim();
-             if (line.startsWith("&") && line.endsWith("&")) {
-                String sectionKeyword = line.substring(1, line.length() - 1).toLowerCase(); 
-                boolean allWordsMatch = true;
-                
-                for (String word : searchWords) {
-                    if (!sectionKeyword.contains(word)) {//If any word is missing, set the flag to false
-                        allWordsMatch = false;
-                        break;
-                    }
-                }
 
-                if (allWordsMatch) {
-                    isPrinting = true; //Start printing after the match
-                    isMatchFound = true; //Found at least one match
-                    result.append("\nInformation found for keyword: ").append(keyword).append("\n\n");
-                    result.append(sectionKeyword).append("\n\n"); 
-                } else {
-                    isPrinting = false; //Do not print
+
+            if (isHeader(line)) {
+                String sectionKeyword = getHeaderKeyword(line);
+                isPrinting = containsAllWords(sectionKeyword, searchWords);
+                if (isPrinting) {
+                    isMatchFound = true;
+                    addHeaderToResult(result, keyword, sectionKeyword);
                 }
-                continue;
+                continue; 
             }
 
-            
+
             if (isPrinting) {
                 if (line.contains("*")) {
-                    isPrinting = false; //Stop printing after the * symbol
-                    result.append(line).append("\n"); 
-                } else {
-                    result.append(line).append("\n");
+                    isPrinting = false;  // Stop printing when "*" is found
                 }
+                result.append(line).append("\n");
             }
         }
+
 
         if (!isMatchFound) {
             result.append("No information found for the keyword: ").append(keyword);
         }
 
-        reader.close(); 
-        
         return result.toString();
     }
+}
+//find header
+private static boolean isHeader(String line) {
+    return line.startsWith("&") && line.endsWith("&");
+}
+
+//find keyword in header
+private static String getHeaderKeyword(String line) {
+    return line.substring(1, line.length() - 1).toLowerCase();  
+}
+
+//check if keyword matches in the header
+private static boolean containsAllWords(String sectionKeyword, String[] searchWords) {
+    for (String word : searchWords) {
+        if (!sectionKeyword.contains(word)) {
+            return false;  
+        }
+    }
+    return true;
+}
+
+private static void addHeaderToResult(StringBuilder result, String keyword, String sectionKeyword) {
+    result.append("\nInformation found for keyword: ").append(keyword).append("\n\n");
+    result.append(sectionKeyword).append("\n\n");
+}
     ////////////////////////////////////////////////////////////////////////////
     public static String addComment(FileWriter writer, Scanner in, Employee emp) throws IOException {
     System.out.println("Please enter your comment:");
