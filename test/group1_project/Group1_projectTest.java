@@ -34,9 +34,9 @@ public class Group1_projectTest {
         testFile = File.createTempFile("testFile", ".txt");
          try (FileWriter writer = new FileWriter(testFile)) {
             writer.write("Employee ID: 1234\n");
-            writer.write("- This is a sample comment. (Comment ID: 1)\n");
+            writer.write("- This is a sample comment. (Comment ID: C1)\n");
             writer.write("Employee ID: 5678\n");
-            writer.write("- Another comment for testing. (Comment ID: 2)\n");
+            writer.write("- Another comment for testing. (Comment ID: C2)\n");
         }
          
     }
@@ -130,8 +130,8 @@ public class Group1_projectTest {
         List<String> comments = instance.reviewComments(testFile.getPath());
 
         assertEquals(2, comments.size());
-        assertTrue(comments.contains("Employee ID: 1234 | Comment: This is a sample comment. (Comment ID: 1) | Has Feedback: false"));
-        assertTrue(comments.contains("Employee ID: 5678 | Comment: Another comment for testing. (Comment ID: 2) | Has Feedback: false"));
+        assertTrue(comments.contains("Employee ID: 1234 | Comment: This is a sample comment. (Comment ID: C1) | Has Feedback: false"));
+        assertTrue(comments.contains("Employee ID: 5678 | Comment: Another comment for testing. (Comment ID: C2) | Has Feedback: false"));
     }
 
     @Test
@@ -157,21 +157,21 @@ public class Group1_projectTest {
     
     @Test
     public void ProvideFeedbackSuccess() throws IOException {
-        Scanner scanner = new Scanner("1\nThis is feedback for comment 1\n");
+        Scanner scanner = new Scanner("C1\nThis is feedback for comment C1\n");
         Admin a = new Admin("A001");
 
         String result = instance.provideFeedback(testFile.getPath(), scanner, a);
         
-        assertEquals("Feedback added successfully", result);
+        assertEquals("Feedback added successfully for Comment ID: C1", result);
 
         List<String> lines = Files.readAllLines(testFile.toPath());
-        assertTrue(lines.contains("Admin Feedback by Admin ID: A001"));
-        assertTrue(lines.contains("Feedback: This is feedback for comment 1"));
+        assertTrue(lines.contains("  Admin Feedback by Admin ID: A001"));
+        assertTrue(lines.contains("  Feedback: This is feedback for comment C1"));
     }
 
     @Test
     public void ProvideFeedbackCommentIdNotFound() throws IOException {
-        Scanner scanner = new Scanner("11\n");
+        Scanner scanner = new Scanner("C11\n");
         Admin a = new Admin("A001");
 
         String result = instance.provideFeedback(testFile.getPath(), scanner, a);
