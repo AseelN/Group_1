@@ -91,6 +91,12 @@ private static void displayAdminMenu() {
     System.out.print("Enter your choice: ");
 }
 
+    //exit menu
+public static void exitAdminMenu() {
+    System.out.println("Exiting Admin Menu...");
+    System.exit(0); 
+}
+
 //-------------------------------------Search-----------------------------------
 public static void handleSearchInformation(Scanner in) {
     while (true) {
@@ -166,18 +172,17 @@ public static String searchInfo(String fileName, String keyword) throws IOExcept
 }
 
 //find header
-private static boolean isHeader(String line) {
+public static boolean isHeader(String line) {
     return line.startsWith("&") && line.endsWith("&");
 }
 
 //find keyword in header
-private static String getHeaderKeyword(String line) {
+public static String getHeaderKeyword(String line) {
     return line.substring(1, line.length() - 1).toLowerCase();  
 }
 
-
 //check if keyword matches in the header
-private static boolean containsAllWords(String sectionKeyword, String[] searchWords) {
+public static boolean containsAllWords(String sectionKeyword, String[] searchWords) {
     for (String word : searchWords) {
         if (!sectionKeyword.contains(word)) {
             return false;  
@@ -186,9 +191,34 @@ private static boolean containsAllWords(String sectionKeyword, String[] searchWo
     return true;
 }
 
+//------------------------------Add Comment-------------------------------------
+ public static String addComment(FileWriter writer, Scanner in, Employee emp) throws IOException {
+    System.out.println("Please enter your comment:");
+    String commentText = in.nextLine();
 
-    //send comment
-private static void handleSendComment(Scanner in, Employee employee) {
+    Comment comment = new Comment(commentText, emp);
+
+    emp.addComment(comment);
+    
+    writer.append("Employee ID: ").append(emp.getEmployeeId()).append("\n");
+    for (Comment c : emp.getComments()) {
+        writer.append("- ").append(c.getComment()).append(" (Comment ID: ").append(c.getCommentId()).append(")\n");
+    }
+
+    System.out.println("Thank you. Your comment ID is: " + comment.getCommentId());
+
+    return "Comment added successfully with Comment ID: " + comment.getCommentId();
+}
+    
+//add header to result
+public static void addHeaderToResult(StringBuilder result, String keyword, String sectionKeyword) {
+    result.append("\nInformation found for keyword: ").append(keyword).append("\n\n");
+    result.append(sectionKeyword).append("\n\n");
+}
+
+
+//send comment
+public static void handleSendComment(Scanner in, Employee employee) {
     try (FileWriter writer = new FileWriter("comments.txt", true)) {
         addComment(writer, in, employee);
     } catch (IOException e) {
@@ -196,8 +226,9 @@ private static void handleSendComment(Scanner in, Employee employee) {
     }
 }
   
-    //view comments without feedback
-    private static void viewCommentsWithoutFeedback(Scanner in, Admin admin) {
+//-------------------------------------View comments----------------------------
+//view comments without feedback
+public static void viewCommentsWithoutFeedback(Scanner in, Admin admin) {
     try {
         List<String> comments = reviewComments("comments.txt");
 
@@ -217,54 +248,7 @@ private static void handleSendComment(Scanner in, Employee employee) {
     }
 }
 
-    //exit menu
-    private static void exitAdminMenu() {
-    System.out.println("Exiting Admin Menu...");
-    System.exit(0); 
-}
-
-    //display comments 
-    private static void displayComments(List<String> comments) {
-    System.out.println("Comments without feedback:");
-    for (String entry : comments) {
-        System.out.println(entry);
-    }
-}
-
-    //ask for feedback 
-    private static boolean askForFeedback(Scanner in) {
-    System.out.print("Do you want to provide feedback for any comment? (yes/no): ");
-    return in.nextLine().trim().equalsIgnoreCase("yes");
-}
-///////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////////////   
-
-
-private static void addHeaderToResult(StringBuilder result, String keyword, String sectionKeyword) {
-    result.append("\nInformation found for keyword: ").append(keyword).append("\n\n");
-    result.append(sectionKeyword).append("\n\n");
-}
-    ////////////////////////////////////////////////////////////////////////////
-    public static String addComment(FileWriter writer, Scanner in, Employee emp) throws IOException {
-    System.out.println("Please enter your comment:");
-    String commentText = in.nextLine();
-
-    Comment comment = new Comment(commentText, emp);
-
-    emp.addComment(comment);
-    
-    writer.append("Employee ID: ").append(emp.getEmployeeId()).append("\n");
-    for (Comment c : emp.getComments()) {
-        writer.append("- ").append(c.getComment()).append(" (Comment ID: ").append(c.getCommentId()).append(")\n");
-    }
-
-    System.out.println("Thank you. Your comment ID is: " + comment.getCommentId());
-
-    return "Comment added successfully with Comment ID: " + comment.getCommentId();
-}
-    
-    public static List<String> reviewComments(String fileName) throws IOException {
+public static List<String> reviewComments(String fileName) throws IOException {
     List<String> reviewEntries = new ArrayList<>();
 
     try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -287,8 +271,23 @@ private static void addHeaderToResult(StringBuilder result, String keyword, Stri
 
     return reviewEntries;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  public static String provideFeedback(String filePath, Scanner in, Admin admin) throws IOException {
+    
+//display comments 
+public static void displayComments(List<String> comments) {
+    System.out.println("Comments without feedback:");
+    for (String entry : comments) {
+        System.out.println(entry);
+    }
+}
+
+//ask for feedback 
+public static boolean askForFeedback(Scanner in) {
+    System.out.print("Do you want to provide feedback for any comment? (yes/no): ");
+    return in.nextLine().trim().equalsIgnoreCase("yes");
+}
+
+//-------------------------------------Provide feedback----------------------------
+public static String provideFeedback(String filePath, Scanner in, Admin admin) throws IOException {
     if (admin == null || admin.getAdminId() == null) {
         return "Admin details are missing. Unable to provide feedback.";
     }

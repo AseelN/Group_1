@@ -81,67 +81,34 @@ public class Group1_projectTest {
     }
     @Test 
 public void testValidKeyword() throws IOException { 
-    // Source file path
-    File sourceFile = new File("C:\\Users\\aseel\\Documents\\NetBeansProjects\\Group_1\\Information.txt");
     
-    // Temporary test file path
+    
     File testFile = new File("tempTestData.txt");
     
-    // Copy content from source file to temp test file
-    try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
-         FileWriter writer = new FileWriter(testFile)) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            writer.write(line + System.lineSeparator());
-        }
-    } // This ensures the writer is properly closed and data is flushed
-
+    
     System.out.println("valid keyword test");
     
-    // Example of a valid keyword
-    String keyword = "email";  
+    
+    String keyword = "shortcut to desktop";  
     String result = instance.searchInfo(testFile.getPath(), keyword); 
+    System.out.println(result);
     
-    
-    // Update the expected result to match the actual content in the Information.txt file
     String expResult = "\n" +
-"Information found for keyword: email\n" +
+"Information found for keyword: shortcut to desktop\n" +
 "\n" +
-"handling the offline work signal in the email application:\n" +
+"add a shortcut to the desktop:\n" +
 "\n" +
-"1-open the Outlook email application.\n" +
-"2-Select the \"Send/Receive\" tab.\n" +
-"3-Click on the â€œWork Offlineâ€? icon to make it  unshaded.*\n" +
-"\n" +
-"Information found for keyword: email\n" +
-"\n" +
-"email archiving:\n" +
-"\n" +
-"1. open the Outlook email application.\n" +
-"2. Select the â€œFileâ€? tab.\n" +
-"3. Select â€œInformationâ€? from the right menu.\n" +
-"4. Select â€œArchiveâ€? from the â€œCleanup Toolsâ€? icon.\n" +
-"5. A pop-up window titled â€œArchiveâ€? will appear.\n" +
-"6. Select â€œArchive this folder and all subfoldersâ€? and select the folder you want to archive. Note: When you select the first folder (usually named the userâ€™s email), all subfolders under it will be archived.\n" +
-"7. Specify the date after which you do not want to archive in the â€œArchive items older than:â€? option.\n" +
-"8. If you want to change the location of saving the archive file, this is modified in the â€œArchive file:â€? option by clicking on the â€œBrowse...â€? button and selecting a new location.\n" +
-"9. Click on the â€œOKâ€? button, where the archiving process will begin and will appear at the bottom of the application.\n" +
-"10. When the archiving process is complete, the email application will open the archive file in the right menu of the application.*\n" +
-"\n" +
-"Information found for keyword: email\n" +
-"\n" +
-"add a folder in the email app:\n" +
-"\n" +
-"1. open the email application (Outlook).\n" +
-"2. Select the main folder to which the folder will be added.\n" +
-"3. Right-click and select â€œNew Folderâ€¦â€? from the pop-up menu.\n" +
-"4. Enter the folder name in the \"Name:\" field.\n" +
-"5. Press the \"OK\" button.*\n" +
-"";  
+"-solution 1-\n" +
+"Add a shortcut to a website from your internet browser:\n" +
+"1. Open the intended website in the browser.\n" +
+"2. Select â€œShortcut to Desktopâ€? from â€œSendâ€? in the â€œFileâ€? menu.\n" +
+"-solution 2-\n" +
+"Add a shortcut to a specific application or file:\n" +
+"1. Right-click on the application or file and select â€œCreate Shortcutâ€?; the shortcut will be created directly in the same location as the application or file.*\n" +
+"\n";
+
     assertEquals(expResult, result);
 
-    // Clean up by deleting the temporary test file
-    testFile.delete();
 }
 
 
