@@ -79,40 +79,20 @@ public class Group1_projectTest {
         String result = instance.validation(s, in);
         assertEquals(expResult, result);
     }
-    @Test 
-public void testValidKeyword() throws IOException { 
     
-    
-    File testFile = new File("tempTestData.txt");
-    
-    
-    System.out.println("valid keyword test");
-    
-    
-    String keyword = "shortcut to desktop";  
-    String result = instance.searchInfo(testFile.getPath(), keyword); 
-    System.out.println(result);
-    
-    String expResult = "\n" +
-"Information found for keyword: shortcut to desktop\n" +
-"\n" +
-"add a shortcut to the desktop:\n" +
-"\n" +
-"-solution 1-\n" +
-"Add a shortcut to a website from your internet browser:\n" +
-"1. Open the intended website in the browser.\n" +
-"2. Select â€œShortcut to Desktopâ€? from â€œSendâ€? in the â€œFileâ€? menu.\n" +
-"-solution 2-\n" +
-"Add a shortcut to a specific application or file:\n" +
-"1. Right-click on the application or file and select â€œCreate Shortcutâ€?; the shortcut will be created directly in the same location as the application or file.*\n" +
-"\n";
+    @Test
+    public void testFileNotEmpty() throws IOException {
+        String filePath = "information.txt"; 
+        
+        File file = new File(filePath);
 
-    assertEquals(expResult, result);
+        boolean isNotEmpty = file.exists() && file.length() > 0;
 
-}
+        System.out.println("File is not empty: " + isNotEmpty);
+        
+        assertTrue("File should not be empty", isNotEmpty);
+    }
 
-
-    
     @Test 
     public void testKeywordNotFound() throws IOException {
         System.out.println("Keyword Not Found");

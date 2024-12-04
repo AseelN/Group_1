@@ -42,7 +42,7 @@ public static void userAccess(String userId, Scanner in) {
 //-------------------------------------Menu-------------------------------------
 //Employee
 public static void employeeMenu(String employeeId, Scanner in) {
-    Employee employee = new Employee(employeeId, "defaultName", "defaultEmail");
+    Employee employee = new Employee(employeeId);
 
     while (true) {
         displayEmployeeMenu(); 
