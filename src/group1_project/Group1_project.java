@@ -89,7 +89,7 @@ private static void displayAdminMenu() {
     System.out.println("1. View Comments Without Feedback");
     System.out.println("2. Exit");
     System.out.print("Enter your choice: ");
-}
+} 
 
     //exit menu
 public static void exitAdminMenu() {
@@ -98,12 +98,12 @@ public static void exitAdminMenu() {
 }
 
 //-------------------------------------Search-----------------------------------
-public static void handleSearchInformation(Scanner in) {
+public static void handleSearchInformation(Scanner in) { 
     while (true) {
         System.out.print("Enter a keyword to search for information: ");
         String keyword = in.nextLine().trim().toLowerCase();
 
-        if (validation(keyword, in).equals("Searching for solutions...")) {
+        if (validation(keyword, in).equals("Searching for information...")) {
             try {
                 System.out.println(searchInfo("information.txt", keyword));
             } catch (IOException e) {
@@ -125,7 +125,7 @@ public static String validation(String str, Scanner in){
 
         }
         else 
-            return "Searching for solutions...";
+            return "Searching for information...";
             
     }
     
